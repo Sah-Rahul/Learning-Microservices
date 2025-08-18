@@ -1,10 +1,7 @@
-import React from "react";
 import { assets } from "../assets/assets";
 import { cities } from "../assets/assets";
 
 const Hero = () => {
-  console.log(assets);
-  console.log(cities);
   return (
     <div
       className="flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32 text-white 
