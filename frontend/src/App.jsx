@@ -27,12 +27,13 @@ const App = () => {
             <Route path="/owner" element={<Layout />}>
               <Route index element={<Dashboard />} />
               <Route index element={<AddRoom />} />
-              <Route path="add-room" element={<ListRoom />} />
+              <Route path="add-room" element={<AddRoom />} />
               <Route path="list-room" element={<ListRoom />} />
             </Route>
           </Routes>
         </div>
-        <Footer />
+      {isOwner ? "" :  <Footer />}
+
       </div>
     </>
   );
