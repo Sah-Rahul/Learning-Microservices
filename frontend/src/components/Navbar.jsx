@@ -63,12 +63,13 @@ const Navbar = () => {
           : "py-4 md:py-6"
       }`}
     >
+      
       {/* Logo */}
       <Link to={"/"}>
         <img
-          src={assets.logo}
+          src='/images/logo.png'
           alt="logo"
-          className={`h-9 ${isScrolled && "invert opacity-80"}`}
+          className={`h-16 ${isScrolled && "invert opacity-80"}`}
         />
       </Link>
 
