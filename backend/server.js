@@ -15,7 +15,7 @@ app.use(clerkMiddleware());
 
 app.use('/', (req , res ) => res.send("API is working "))
 app.get("/", (req, res) => {
-  res.send("server is running...");
+  res.send("server is running ✅ ...");
 });
 
 const PORT = process.env.PORT;
