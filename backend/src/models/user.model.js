@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
-      required: true, 
+      required: true,
     },
     fullname: {
       type: String,
@@ -17,14 +17,17 @@ const userSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
+      default: "https://avatar.vercel.sh/default",
     },
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
     },
-    recentSearchedCities: [{ type: String, required: true }],
+    recentSearchedCities: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
