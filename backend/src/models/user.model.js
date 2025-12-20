@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
-      required: true, // Only if you provide IDs (e.g. Firebase UID)
+      required: true, 
     },
     fullname: {
       type: String,
