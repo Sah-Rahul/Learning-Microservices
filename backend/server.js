@@ -1,25 +1,34 @@
 import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
+import dotenv from "dotenv"; 
+import clerkWebhook from "./src/controllers/clerkWebhook.js";
 import { ConnectDB } from "./src/config/db.js";
-import { clerkMiddleware } from "@clerk/express";
-import clerkWebhooks from "./src/controllers/clerkWebhook.js";
 
 dotenv.config();
+
 const app = express();
-
-app.use(cors());
-
-app.post("/api/clerk", clerkWebhooks);
-
-app.use(express.json());
-
-app.use(clerkMiddleware());
 
 ConnectDB();
 
+app.post("/api/clerk", clerkWebhook);
+
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.send("server is running ✅");
+  res.json({
+    message: "Hotel Booking Backend API ✅",
+    timestamp: new Date().toISOString(),
+  });
 });
+
+app.get("/health", (req, res) => {
+  res.json({ status: "healthy", uptime: process.uptime() });
+});
+
+const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}
 
 export default app;

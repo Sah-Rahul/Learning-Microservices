@@ -1,11 +1,5 @@
-import User from "../models/user.model.js";
 import { Webhook } from "svix";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+import User from "../models/user.model.js";
 
 const getRawBody = (req) => {
   return new Promise((resolve, reject) => {
@@ -21,10 +15,14 @@ const getRawBody = (req) => {
   });
 };
 
-const clerkWebhooks = async (req, res) => {
+export const clerkWebhook = async (req, res) => {
   try {
     console.log("🔥 CLERK WEBHOOK HIT");
-    console.log("Headers:", req.headers);
+    console.log("Headers received:", {
+      "svix-id": req.headers["svix-id"],
+      "svix-timestamp": req.headers["svix-timestamp"],
+      "svix-signature": req.headers["svix-signature"] ? "present" : "missing",
+    });
 
     const rawBody = await getRawBody(req);
     console.log("Raw body length:", rawBody.length);
@@ -40,7 +38,7 @@ const clerkWebhooks = async (req, res) => {
     const evt = whook.verify(rawBody, headers);
     const { data, type } = evt;
 
-    console.log("Event type:", type);
+    console.log("✅ Webhook verified, event type:", type);
 
     const userData = {
       _id: data.id,
@@ -53,20 +51,20 @@ const clerkWebhooks = async (req, res) => {
 
     if (type === "user.created") {
       const user = await User.create(userData);
-      console.log("✅ User created:", user._id);
+      console.log("✅ User created in MongoDB:", user._id);
     }
 
     if (type === "user.updated") {
       await User.findByIdAndUpdate(data.id, userData);
-      console.log("✅ User updated");
+      console.log("✅ User updated in MongoDB");
     }
 
     if (type === "user.deleted") {
       await User.findByIdAndDelete(data.id);
-      console.log("✅ User deleted");
+      console.log("✅ User deleted from MongoDB");
     }
 
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: true, message: "Webhook processed" });
   } catch (error) {
     console.error("❌ WEBHOOK ERROR:", error.message);
     console.error("Full error:", error);
@@ -77,4 +75,4 @@ const clerkWebhooks = async (req, res) => {
   }
 };
 
-export default clerkWebhooks;
+export default clerkWebhook;
