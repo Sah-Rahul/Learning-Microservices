@@ -1,6 +1,7 @@
 import express from "express";
-import cookieParser from "cookie-parser";
-import userRoutes from "./routes/user.routes.js";
+import cookieParser from "cookie-parser"; 
+import authRoutes from "./routes/auth.routes.js";
+import { errorHandler } from "./config/ErrorMiddleware.js";
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api/v1/auth", userRoutes);
+app.use("/auth", authRoutes);
 
+
+app.use(errorHandler)
 export default app;

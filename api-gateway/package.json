@@ -3,17 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "NODE_OPTIONS=--no-deprecation tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "http-proxy": "^1.18.1",
     "http-proxy-middleware": "^3.0.5"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6"
+    "@types/cookie-parser": "^1.4.10",
+    "@types/express": "^5.0.6",
+    "tsx": "^4.21.0"
   }
 }

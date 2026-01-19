@@ -1,10 +1,18 @@
 import express from "express";
-import authRoutes from "./routes/auth.routes";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
-app.use(express.json());
+app.use(cookieParser());
 
-app.use("/auth", authRoutes);
+app.use(
+  "/auth",
+  createProxyMiddleware({
+    target: "http://localhost:3000/auth",
+    changeOrigin: true,
+    logger: console,
+  }),
+);
 
 export default app;
